@@ -1,0 +1,101 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    tools:context="com.example.virgilio.chasc.UsersOneForm">
+
+    <TextView
+        android:id="@+id/lblUser"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignParentLeft="true"
+        android:layout_alignParentStart="true"
+        android:layout_alignParentTop="true"
+        android:layout_marginLeft="60dp"
+        android:layout_marginStart="60dp"
+        android:layout_marginTop="40dp"
+        android:paddingRight="10dp"
+        android:paddingEnd="10dp"
+        android:text="@string/name"
+        android:textSize="18sp" />
+
+    <EditText
+        android:id="@+id/etName"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignBaseline="@+id/lblUser"
+        android:layout_alignBottom="@+id/lblUser"
+        android:layout_toEndOf="@+id/lblUser"
+        android:layout_toRightOf="@+id/lblUser"
+        android:ems="10"
+        android:hint="@string/name"
+        android:inputType="textPersonName"
+        android:textSize="18sp" />
+
+    <TextView
+        android:id="@+id/lblSurname"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_below="@+id/etName"
+        android:layout_marginTop="20dp"
+        android:layout_toLeftOf="@+id/etName"
+        android:layout_toStartOf="@+id/etName"
+        android:paddingEnd="10dp"
+        android:paddingRight="10dp"
+        android:text="@string/surname"
+        android:textSize="18sp" />
+
+    <EditText
+        android:id="@+id/etSurname"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignBaseline="@+id/lblSurname"
+        android:layout_alignBottom="@+id/lblSurname"
+        android:layout_toEndOf="@+id/lblSurname"
+        android:layout_toRightOf="@+id/lblSurname"
+        android:ems="10"
+        android:hint="@string/surname"
+        android:inputType="textPersonName"
+        android:textSize="18sp" />
+
+    <TextView
+        android:id="@+id/lblNfc"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_below="@+id/etSurname"
+        android:layout_marginTop="20dp"
+        android:layout_toLeftOf="@+id/etSurname"
+        android:layout_toStartOf="@+id/etSurname"
+        android:paddingRight="10dp"
+        android:paddingEnd="10dp"
+        android:text="@string/nfc"
+        android:textSize="18sp" />
+
+    <EditText
+        android:id="@+id/etNfc"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignBaseline="@+id/lblNfc"
+        android:layout_alignBottom="@+id/lblNfc"
+        android:layout_toEndOf="@+id/lblNfc"
+        android:layout_toRightOf="@+id/lblNfc"
+        android:ems="10"
+        android:hint="@string/nfc"
+        android:inputType="textPersonName"
+        android:textSize="18sp" />
+
+    <Button
+        android:id="@+id/btnSave"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_alignParentLeft="true"
+        android:layout_alignParentStart="true"
+        android:layout_below="@+id/etNfc"
+        android:layout_marginTop="20dp"
+        android:onClick="saveUser"
+        android:text="@string/save"
+        android:textSize="18sp" />
+
+</RelativeLayout>

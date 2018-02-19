@@ -1,0 +1,10 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <color name="colorPrimary">#5BA1D8</color>
+    <color name="colorPrimaryDark">#469CD6</color>
+    <color name="colorAccent">#9161A5</color>
+    <color name="colorSuccess">#6FD488</color>
+    <color name="colorDanger">#D46F6F</color>
+    <color name="colorCurrDay">#6FD488</color>
+    <color name="colorSelDay">#6FBDD4</color>
+</resources>
