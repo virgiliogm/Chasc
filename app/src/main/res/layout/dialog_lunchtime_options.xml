@@ -1,0 +1,38 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:orientation="vertical">
+
+    <Button
+        android:id="@+id/btnAttended"
+        style="@style/CustomSmallButton"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_margin="10dp"
+        android:background="@drawable/btn_primary"
+        android:text="@string/attended"
+        android:textAllCaps="false"/>
+
+    <Button
+        android:id="@+id/btnNoShow"
+        style="@style/CustomSmallButton"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_margin="10dp"
+        android:background="@drawable/btn_danger"
+        android:text="@string/no_show"
+        android:textAllCaps="false"/>
+
+    <Button
+        android:id="@+id/btnClearStatus"
+        style="@style/CustomSmallButton"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_margin="10dp"
+        android:background="@drawable/btn_accent"
+        android:text="@string/clear_status"
+        android:textAllCaps="false"/>
+
+</LinearLayout>

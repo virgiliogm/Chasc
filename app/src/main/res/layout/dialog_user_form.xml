@@ -1,0 +1,188 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:padding="10dp"
+    tools:context="tk.rktdev.chasc.UserFormDialog">
+
+    <TextView
+        android:id="@+id/tvTitle"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_alignParentTop="true"
+        android:layout_marginTop="10dp"
+        android:text="@string/add_user"
+        android:textAlignment="center"
+        android:textSize="18sp"
+        android:textStyle="bold" />
+
+    <LinearLayout
+        android:id="@+id/rowName"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_below="@+id/tvTitle"
+        android:layout_marginTop="20dp"
+        android:orientation="horizontal">
+
+        <TextView
+            android:id="@+id/lblName"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_weight="70"
+            android:gravity="end"
+            android:paddingEnd="5dp"
+            android:paddingRight="5dp"
+            android:text="@string/name"
+            android:textAlignment="textEnd"
+            android:textSize="14sp"/>
+
+        <TextView
+            android:id="@+id/lblNameRequired"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignBaseline="@+id/lblName"
+            android:layout_alignBottom="@+id/lblName"
+            android:paddingEnd="5dp"
+            android:paddingRight="5dp"
+            android:text="@string/required_fields_symbol"
+            android:textSize="14sp"/>
+
+        <EditText
+            android:id="@+id/etName"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_weight="30"
+            android:layout_alignBaseline="@+id/lblName"
+            android:layout_alignBottom="@+id/lblName"
+            android:hint="@string/name"
+            android:inputType="textPersonName"
+            android:textSize="14sp" />
+    </LinearLayout>
+
+    <LinearLayout
+        android:id="@+id/rowSurname"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_below="@+id/rowName"
+        android:layout_marginTop="20dp"
+        android:orientation="horizontal">
+
+        <TextView
+            android:id="@+id/lblSurname"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_weight="70"
+            android:paddingEnd="5dp"
+            android:paddingRight="5dp"
+            android:textAlignment="textEnd"
+            android:gravity="end"
+            android:text="@string/surname"
+            android:textSize="14sp" />
+
+        <TextView
+            android:id="@+id/lblSurameRequired"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignBaseline="@+id/lblSurname"
+            android:layout_alignBottom="@+id/lblSurname"
+            android:paddingEnd="5dp"
+            android:paddingRight="5dp"
+            android:text="@string/required_fields_symbol"
+            android:textSize="14sp"/>
+
+        <EditText
+            android:id="@+id/etSurname"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_weight="30"
+            android:layout_alignBaseline="@+id/lblSurname"
+            android:layout_alignBottom="@+id/lblSurname"
+            android:hint="@string/surname"
+            android:inputType="textPersonName"
+            android:textSize="14sp" />
+    </LinearLayout>
+
+    <LinearLayout
+        android:id="@+id/rowNfc"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_below="@+id/rowSurname"
+        android:layout_marginTop="20dp"
+        android:orientation="horizontal">
+
+        <TextView
+            android:id="@+id/lblNfc"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_weight="70"
+            android:paddingEnd="10dp"
+            android:paddingRight="10dp"
+            android:textAlignment="textEnd"
+            android:gravity="end"
+            android:text="@string/nfc"
+            android:textSize="14sp" />
+
+        <EditText
+            android:id="@+id/etNfc"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_weight="30"
+            android:layout_alignBaseline="@+id/lblNfc"
+            android:layout_alignBottom="@+id/lblNfc"
+            android:hint="@string/nfc"
+            android:inputType="textPersonName"
+            android:textSize="14sp" />
+    </LinearLayout>
+
+    <TextView
+        android:id="@+id/tvNfcHint"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_below="@+id/rowNfc"
+        android:layout_marginTop="10dp"
+        android:text="@string/add_user_nfc_hint"
+        android:textAlignment="center"
+        android:textSize="12sp" />
+
+    <TextView
+        android:id="@+id/tvRequired"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_below="@+id/tvNfcHint"
+        android:layout_marginTop="10dp"
+        android:text="@string/required_fields_warning"
+        android:textAlignment="center"
+        android:textSize="12sp"/>
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_below="@+id/tvRequired"
+        android:layout_marginTop="20dp"
+        android:orientation="horizontal">
+
+        <Button
+            android:id="@+id/btnKO"
+            style="@style/CustomSmallButton"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_margin="5dp"
+            android:layout_weight="1"
+            android:background="@drawable/btn_danger"
+            android:onClick="closeUserForm"
+            android:text="@string/cancel"/>
+
+        <Button
+            android:id="@+id/btnOK"
+            style="@style/CustomSmallButton"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_margin="5dp"
+            android:layout_weight="1"
+            android:background="@drawable/btn_primary"
+            android:onClick="saveUser"
+            android:text="@string/save"/>
+    </LinearLayout>
+
+</RelativeLayout>

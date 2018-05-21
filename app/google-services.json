@@ -1,0 +1,63 @@
+{
+  "project_info": {
+    "project_number": "245319054321",
+    "firebase_url": "https://chasc-1.firebaseio.com",
+    "project_id": "chasc-1",
+    "storage_bucket": "chasc-1.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:245319054321:android:d1def235e131b704",
+        "android_client_info": {
+          "package_name": "tk.rktdev.chasc"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "245319054321-t0kkhefd7elbhrc6bei2rtdkqfgm13si.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "tk.rktdev.chasc",
+            "certificate_hash": "4e4345ee64e583a9b2846a851cd8fdffe636633f"
+          }
+        },
+        {
+          "client_id": "245319054321-h6um8cunalkkk7qtqba6941dncq9soip.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "tk.rktdev.chasc",
+            "certificate_hash": "0fedf98b11c8da13c9fac37b2b520f1af3936c85"
+          }
+        },
+        {
+          "client_id": "245319054321-4m78618ddievpajhr22m20m4ainje3im.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyB0S0GvvK370gZF0OsPvXZ7oCdQcfuFRqI"
+        }
+      ],
+      "services": {
+        "analytics_service": {
+          "status": 1
+        },
+        "appinvite_service": {
+          "status": 2,
+          "other_platform_oauth_client": [
+            {
+              "client_id": "245319054321-4m78618ddievpajhr22m20m4ainje3im.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        },
+        "ads_service": {
+          "status": 2
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}

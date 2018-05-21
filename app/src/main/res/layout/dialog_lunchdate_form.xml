@@ -1,0 +1,271 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/lunchdateLayout"
+    android:layout_width="match_parent"
+    android:layout_height="440dp"
+    android:padding="10dp"
+    tools:context="tk.rktdev.chasc.LunchdateFormDialog" >
+
+    <ScrollView
+        android:layout_width="match_parent"
+        android:layout_height="match_parent">
+
+        <RelativeLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="vertical">
+
+            <TextView
+                android:id="@+id/tvTitle"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_alignParentTop="true"
+                android:layout_marginTop="10dp"
+                android:text="@string/add_lunchdate"
+                android:textAlignment="center"
+                android:textSize="18sp"
+                android:textStyle="bold"/>
+
+            <TextView
+                android:id="@+id/userFilter"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_alignParentLeft="true"
+                android:layout_alignParentStart="true"
+                android:layout_below="@+id/tvTitle"
+                android:layout_marginLeft="30dp"
+                android:layout_marginStart="30dp"
+                android:layout_marginTop="20dp"
+                android:text="@string/user"
+                android:textSize="14sp"/>
+
+            <TextView
+                android:id="@+id/tvUser"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_alignBaseline="@+id/userFilter"
+                android:layout_alignBottom="@+id/userFilter"
+                android:layout_marginLeft="30dp"
+                android:layout_marginStart="30dp"
+                android:layout_toEndOf="@+id/userFilter"
+                android:layout_toRightOf="@+id/userFilter"
+                android:textSize="14sp"/>
+
+            <RadioGroup
+                android:id="@+id/rgType"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_alignParentLeft="true"
+                android:layout_alignParentStart="true"
+                android:layout_below="@+id/tvUser"
+                android:layout_marginTop="20dp"
+                android:checkedButton="@+id/rbRange"
+                android:orientation="horizontal"
+                android:paddingLeft="@dimen/fab_margin"
+                android:paddingRight="@dimen/fab_margin">
+
+                <RadioButton
+                    android:id="@+id/rbRange"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="1"
+                    android:text="@string/range"/>
+
+                <RadioButton
+                    android:id="@+id/rbDay"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="1"
+                    android:text="@string/one_day"/>
+            </RadioGroup>
+
+            <LinearLayout
+                android:id="@+id/rowFrom"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_below="@+id/rgType"
+                android:layout_marginTop="20dp"
+                android:orientation="horizontal">
+
+                <TextView
+                    android:id="@+id/tvFrom"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="70"
+                    android:gravity="end"
+                    android:paddingEnd="10dp"
+                    android:paddingRight="10dp"
+                    android:text="@string/from_uppercase"
+                    android:textAlignment="textEnd"
+                    android:textSize="14sp"/>
+
+                <EditText
+                    android:id="@+id/etFrom"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_alignBaseline="@+id/tvFrom"
+                    android:layout_alignBottom="@+id/tvFrom"
+                    android:layout_weight="30"
+                    android:clickable="true"
+                    android:ems="10"
+                    android:focusable="false"
+                    android:inputType="date"/>
+            </LinearLayout>
+
+            <LinearLayout
+                android:id="@+id/rowTo"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_below="@+id/rowFrom"
+                android:layout_marginTop="10dp"
+                android:orientation="horizontal">
+
+                <TextView
+                    android:id="@+id/tvTo"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="70"
+                    android:gravity="end"
+                    android:paddingEnd="10dp"
+                    android:paddingRight="10dp"
+                    android:text="@string/to_uppercase"
+                    android:textAlignment="textEnd"
+                    android:textSize="14sp"/>
+
+                <EditText
+                    android:id="@+id/etTo"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_alignBaseline="@+id/tvTo"
+                    android:layout_alignBottom="@+id/tvTo"
+                    android:layout_weight="30"
+                    android:clickable="true"
+                    android:ems="10"
+                    android:focusable="false"
+                    android:inputType="date"/>
+            </LinearLayout>
+
+            <LinearLayout
+                android:id="@+id/dows"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_alignParentLeft="true"
+                android:layout_alignParentStart="true"
+                android:layout_below="@+id/rowTo"
+                android:layout_marginTop="20dp"
+                android:orientation="horizontal">
+
+                <CheckBox
+                    android:id="@+id/cbMon"
+                    style="@style/CustomCheckBox"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="1"
+                    android:background="@drawable/oval_shape_danger"
+                    android:text="@string/dow_mon"/>
+
+                <CheckBox
+                    android:id="@+id/cbTue"
+                    style="@style/CustomCheckBox"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="1"
+                    android:text="@string/dow_tue"/>
+
+                <CheckBox
+                    android:id="@+id/cbWed"
+                    style="@style/CustomCheckBox"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="1"
+                    android:background="@drawable/oval_shape_danger"
+                    android:text="@string/dow_wed"/>
+
+                <CheckBox
+                    android:id="@+id/cbThu"
+                    style="@style/CustomCheckBox"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="1"
+                    android:background="@drawable/oval_shape_danger"
+                    android:text="@string/dow_thu"/>
+
+                <CheckBox
+                    android:id="@+id/cbFri"
+                    style="@style/CustomCheckBox"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="1"
+                    android:background="@drawable/oval_shape_danger"
+                    android:text="@string/dow_fri"/>
+
+                <CheckBox
+                    android:id="@+id/cbSat"
+                    style="@style/CustomCheckBox"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="1"
+                    android:background="@drawable/oval_shape_danger"
+                    android:text="@string/dow_sat"/>
+
+                <CheckBox
+                    android:id="@+id/cbSun"
+                    style="@style/CustomCheckBox"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="1"
+                    android:background="@drawable/oval_shape_danger"
+                    android:text="@string/dow_sun"/>
+            </LinearLayout>
+
+            <CheckBox
+                android:id="@+id/cbAlt"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_alignParentLeft="true"
+                android:layout_alignParentStart="true"
+                android:layout_below="@+id/dows"
+                android:layout_marginLeft="50dp"
+                android:layout_marginStart="50dp"
+                android:layout_marginTop="20dp"
+                android:text="@string/alternate_weeks"
+                android:textSize="14sp"/>
+
+            <LinearLayout
+                android:id="@+id/bottomButtons"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_alignParentLeft="true"
+                android:layout_alignParentStart="true"
+                android:layout_below="@+id/cbAlt"
+                android:layout_marginTop="20dp"
+                android:orientation="horizontal">
+
+                <Button
+                    android:id="@+id/btnKO"
+                    style="@style/CustomSmallButton"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_margin="5dp"
+                    android:layout_weight="1"
+                    android:background="@drawable/btn_danger"
+                    android:onClick="closeLunchdateForm"
+                    android:text="@string/cancel"/>
+
+                <Button
+                    android:id="@+id/btnOK"
+                    style="@style/CustomSmallButton"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_margin="5dp"
+                    android:layout_weight="1"
+                    android:background="@drawable/btn_primary"
+                    android:onClick="saveLunchdate"
+                    android:text="@string/save"/>
+            </LinearLayout>
+
+        </RelativeLayout>
+    </ScrollView>
+
+</RelativeLayout>

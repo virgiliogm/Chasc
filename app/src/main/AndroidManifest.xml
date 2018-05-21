@@ -1,9 +1,12 @@
 <?xml version="1.0" encoding="utf-8"?>
-<manifest xmlns:android="http://schemas.android.com/apk/res/android" package="com.example.virgilio.chasc">
-
-    <!-- Chasc by Virgilio Gómez is licensed under a Creative Commons Attribution-NonCommercial-ShareAlike 4.0 International License (CC BY-NC-SA 4.0). To view a copy of the license, visit https://creativecommons.org/licenses/by-nc-sa/4.0/legalcode -->
-
-    <uses-sdk android:minSdkVersion="15" />
+<manifest xmlns:android="http://schemas.android.com/apk/res/android"
+    package="tk.rktdev.chasc">
+    <!--
+    Chasc by Virgilio Gómez is licensed under a Creative Commons
+    Attribution-NonCommercial-ShareAlike 4.0 International License (CC BY-NC-SA 4.0).
+    To view a copy of the license, visit https://creativecommons.org/licenses/by-nc-sa/4.0/legalcode
+    -->
+    <uses-sdk android:minSdkVersion="17" />
 
     <uses-permission android:name="android.permission.NFC" />
 
@@ -13,22 +16,19 @@
         android:roundIcon="@mipmap/ic_launcher_round"
         android:label="@string/app_name"
         android:theme="@style/AppTheme">
-
-        <activity android:name=".MainActivity" android:screenOrientation="portrait">
+        <activity
+            android:name=".SplashActivity"
+            android:screenOrientation="portrait">
             <intent-filter>
-                <action android:name="user.del" />
                 <action android:name="android.intent.action.MAIN" />
 
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
-        <activity android:name=".UsersMain" android:screenOrientation="portrait"/>
-        <activity android:name=".UsersOneForm" android:screenOrientation="portrait"/>
-        <activity android:name=".UsersOneNfcForm" android:screenOrientation="portrait"/>
-        <activity android:name=".UsersOneScheduleForm" android:screenOrientation="portrait"/>
-        <activity android:name=".UsersOneScheduleMain" android:screenOrientation="portrait"/>
-        <activity android:name=".UsersScheduleMain" android:screenOrientation="portrait"/>
-        <activity android:name=".PublicMain" android:screenOrientation="portrait"/>
+        <activity
+            android:name=".TabsActivity"
+            android:screenOrientation="portrait">
+        </activity>
     </application>
 
 </manifest>
