@@ -214,12 +214,12 @@ public class LunchdateFormDialog extends Dialog {
             calTo = (Calendar) calFrom.clone();
             if (dayFrom > dayTo) {
                 // If From is greater than To, set To equal to From
-                Toast.makeText(activity, activity.getString(R.string.error_lunchdate_from_gt_to), Toast.LENGTH_LONG).show();
+                Toast.makeText(activity, activity.getString(R.string.error_lunchdate_from_gt_to), Toast.LENGTH_SHORT).show();
             } else {
                 // If range is more than 365 days long, set To to 1 year greater minus 1 day
                 calTo.add(Calendar.YEAR, 1);
                 calTo.add(Calendar.DATE, -1);
-                Toast.makeText(activity, activity.getString(R.string.error_lunchdate_range_size), Toast.LENGTH_LONG).show();
+                Toast.makeText(activity, activity.getString(R.string.error_lunchdate_range_size), Toast.LENGTH_SHORT).show();
             }
             etTo.setText(dateFormat.format(calTo.getTime()));
         }

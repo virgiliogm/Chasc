@@ -166,7 +166,7 @@ public class TabLunchTimeListAdapter extends BaseAdapter {
             .addOnFailureListener(new OnFailureListener() {
                 @Override
                 public void onFailure(@NonNull Exception e) {
-                    Toast.makeText(activity, activity.getString(R.string.error_lunchdate_mod), Toast.LENGTH_LONG).show();
+                    Toast.makeText(activity, activity.getString(R.string.error_lunchdate_mod), Toast.LENGTH_SHORT).show();
                     activity.hideLunchTimeLoading();
                 }
             });

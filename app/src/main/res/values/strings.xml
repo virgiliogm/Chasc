@@ -94,11 +94,4 @@
     <string name="app_name" translatable="false">Chasc</string>
     <string name="required_fields_symbol" translatable="false">*</string>
     <string name="hamburger_icon" translatable="false">&#9776;</string>
-
-    <!-- Facebook application ID and custom URL scheme (app ID prefixed by 'fb'). -->
-    <string name="facebook_application_id" translatable="false">398924907243078</string>
-    <string name="facebook_login_protocol_scheme" translatable="false">fb398924907243078</string>
-    <!-- Twitter consumer key and secret -->
-    <string name="twitter_consumer_key" translatable="false">PHzbLfg26Pr3nLhUgshYJhS0V</string>
-    <string name="twitter_consumer_secret" translatable="false">H9lxhqLylH3zN9DHt2Rn6Q61Um9LyM9TBILblyWB0yFGfTW8xS</string>
 </resources>

@@ -112,7 +112,7 @@ public class TabUsers extends Fragment {
             .addOnFailureListener(new OnFailureListener() {
                 @Override
                 public void onFailure(@NonNull Exception e) {
-                    Toast.makeText(activity, getString(R.string.error_users_get), Toast.LENGTH_LONG).show();
+                    Toast.makeText(activity, getString(R.string.error_users_get), Toast.LENGTH_SHORT).show();
                     hideLoading();
                 }
             });
@@ -227,7 +227,7 @@ public class TabUsers extends Fragment {
             User u = getUserByNfc(nfcId);
             // If Nfc device is already assigned to another user, show alert toast
             if (u != null && u != user) {
-                Toast.makeText(activity, getString(R.string.error_user_nfc_assigned), Toast.LENGTH_LONG).show();
+                Toast.makeText(activity, getString(R.string.error_user_nfc_assigned), Toast.LENGTH_SHORT).show();
             } else {
                 userFormDialog.setNfc(nfcId);
             }
@@ -244,7 +244,7 @@ public class TabUsers extends Fragment {
         userFormDialog.enableButtons();
 
         if (name.length() < 2 || surname.length() < 2) {
-            Toast.makeText(activity, getString(R.string.error_user_shortname), Toast.LENGTH_LONG).show();
+            Toast.makeText(activity, getString(R.string.error_user_shortname), Toast.LENGTH_SHORT).show();
         } else {
             closeUserForm();
             showLoading();
@@ -261,7 +261,7 @@ public class TabUsers extends Fragment {
                     .addOnSuccessListener(new OnSuccessListener<Void>() {
                         @Override
                         public void onSuccess(Void aVoid) {
-                            Toast.makeText(activity, getString(R.string.user_modified), Toast.LENGTH_LONG).show();
+                            Toast.makeText(activity, getString(R.string.user_modified), Toast.LENGTH_SHORT).show();
                             activity.allUsers.set(getUserPosition(newUser.getId()), newUser);
                             updateList();
                             hideLoading();
@@ -270,7 +270,7 @@ public class TabUsers extends Fragment {
                     .addOnFailureListener(new OnFailureListener() {
                         @Override
                         public void onFailure(@NonNull Exception e) {
-                            Toast.makeText(activity, getString(R.string.error_user_mod), Toast.LENGTH_LONG).show();
+                            Toast.makeText(activity, getString(R.string.error_user_mod), Toast.LENGTH_SHORT).show();
                             hideLoading();
                         }
                     });
@@ -284,7 +284,7 @@ public class TabUsers extends Fragment {
                     .addOnSuccessListener(new OnSuccessListener<Void>() {
                         @Override
                         public void onSuccess(Void aVoid) {
-                            Toast.makeText(activity, getString(R.string.user_added), Toast.LENGTH_LONG).show();
+                            Toast.makeText(activity, getString(R.string.user_added), Toast.LENGTH_SHORT).show();
 
                             activity.allUsers.add(newUser);
                             updateList();
@@ -294,7 +294,7 @@ public class TabUsers extends Fragment {
                     .addOnFailureListener(new OnFailureListener() {
                         @Override
                         public void onFailure(@NonNull Exception e) {
-                            Toast.makeText(activity, getString(R.string.error_user_add), Toast.LENGTH_LONG).show();
+                            Toast.makeText(activity, getString(R.string.error_user_add), Toast.LENGTH_SHORT).show();
                             hideLoading();
                         }
                     });
@@ -318,7 +318,7 @@ public class TabUsers extends Fragment {
                         .addOnSuccessListener(new OnSuccessListener<Void>() {
                             @Override
                             public void onSuccess(Void aVoid) {
-                                Toast.makeText(activity, getString(R.string.user_deleted), Toast.LENGTH_LONG).show();
+                                Toast.makeText(activity, getString(R.string.user_deleted), Toast.LENGTH_SHORT).show();
 
                                 int position = getUserPosition(uid);
                                 activity.allUsers.remove(position);
@@ -331,7 +331,7 @@ public class TabUsers extends Fragment {
                         .addOnFailureListener(new OnFailureListener() {
                             @Override
                             public void onFailure(@NonNull Exception e) {
-                                Toast.makeText(activity, getString(R.string.error_user_del), Toast.LENGTH_LONG).show();
+                                Toast.makeText(activity, getString(R.string.error_user_del), Toast.LENGTH_SHORT).show();
                                 hideLoading();
                             }
                         });

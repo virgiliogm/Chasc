@@ -119,7 +119,7 @@ public class TabLunchTime extends Fragment {
             .addOnFailureListener(new OnFailureListener() {
                 @Override
                 public void onFailure(@NonNull Exception e) {
-                    Toast.makeText(activity, getString(R.string.error_users_get), Toast.LENGTH_LONG).show();
+                    Toast.makeText(activity, getString(R.string.error_users_get), Toast.LENGTH_SHORT).show();
                     hideLoading();
                 }
             });
@@ -246,7 +246,7 @@ public class TabLunchTime extends Fragment {
                     .addOnFailureListener(new OnFailureListener() {
                         @Override
                         public void onFailure(@NonNull Exception e) {
-                            Toast.makeText(activity, getString(R.string.error_lunchdate_mod), Toast.LENGTH_LONG).show();
+                            Toast.makeText(activity, getString(R.string.error_lunchdate_mod), Toast.LENGTH_SHORT).show();
                             hideLoading();
                         }
                     });
