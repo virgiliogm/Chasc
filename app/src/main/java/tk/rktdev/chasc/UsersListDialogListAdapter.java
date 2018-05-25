@@ -39,7 +39,7 @@ public class UsersListDialogListAdapter extends BaseAdapter {
     public View getView(final int position, View view, ViewGroup parent) {
         if (view == null) {
             LayoutInflater inflater = (LayoutInflater) activity.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
-            view = inflater.inflate(R.layout.listadapter_users_dialog, null);
+            view = inflater.inflate(R.layout.listadapter_dialog_users, null);
         }
 
         TextView listItemText = view.findViewById(R.id.listItemString);
