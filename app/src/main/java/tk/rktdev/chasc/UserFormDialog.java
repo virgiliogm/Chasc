@@ -6,12 +6,14 @@ import android.os.Bundle;
 import android.support.v4.content.ContextCompat;
 import android.widget.Button;
 import android.widget.EditText;
+import android.widget.TextView;
 
 import java.util.Timer;
 import java.util.TimerTask;
 
 public class UserFormDialog extends Dialog {
     private TabsActivity activity;
+    private TextView tvTitle;
     private EditText etName, etSurname, etNfc;
     private Button btnOK, btnKO;
 
@@ -25,6 +27,7 @@ public class UserFormDialog extends Dialog {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.dialog_user_form);
 
+        tvTitle = (TextView) findViewById(tk.rktdev.chasc.R.id.tvTitle);
         etName = (EditText) findViewById(tk.rktdev.chasc.R.id.etName);
         etSurname = (EditText) findViewById(tk.rktdev.chasc.R.id.etSurname);
         etNfc = (EditText) findViewById(tk.rktdev.chasc.R.id.etNfc);
@@ -33,6 +36,7 @@ public class UserFormDialog extends Dialog {
     }
 
     public void setData(User user) {
+        tvTitle.setText(activity.getString(R.string.edit) + " " + activity.getString(R.string.user));
         etName.setText(user.getName());
         etSurname.setText(user.getSurname());
         etNfc.setText(user.getNfc());

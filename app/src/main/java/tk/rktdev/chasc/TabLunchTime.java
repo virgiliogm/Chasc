@@ -14,8 +14,8 @@ import android.widget.SearchView;
 import android.widget.TextView;
 import android.widget.Toast;
 
-import com.google.android.gms.tasks.OnFailureListener;
-import com.google.android.gms.tasks.OnSuccessListener;
+import com.google.android.gms.tasks.OnCompleteListener;
+import com.google.android.gms.tasks.Task;
 import com.google.firebase.auth.FirebaseUser;
 import com.google.firebase.firestore.DocumentSnapshot;
 import com.google.firebase.firestore.FirebaseFirestore;
@@ -101,26 +101,27 @@ public class TabLunchTime extends Fragment {
             .whereEqualTo("account", account.getUid())
             .whereEqualTo("date", today.getTime())
             .get()
-            .addOnSuccessListener(new OnSuccessListener<QuerySnapshot>() {
+            .addOnCompleteListener(new OnCompleteListener<QuerySnapshot>() {
                 @Override
-                public void onSuccess(QuerySnapshot documentSnapshots) {
-                    // Parse the results and fill the corresponding lists
-                    for (DocumentSnapshot doc : documentSnapshots.getDocuments()) {
-                        Lunchdate ld = new Lunchdate(doc.getId(), doc.getString("account"), doc.getString("userId"), doc.getDate("date"), doc.getString("ref"), doc.getString("refText"), doc.getString("status"));
-                        lunchdates.add(ld);
-                        todayUsers.add(activity.getUserById(doc.getString("userId")));
-                    }
-                    sortLists();
-                    filterList();
+                public void onComplete(@NonNull Task<QuerySnapshot> task) {
+                    // Prevent Fragment not attached to Activity error after logout
+                    if (isAdded()) {
+                        if (task.isSuccessful()) {
+                            // Parse the results and fill the corresponding lists
+                            for (DocumentSnapshot doc : task.getResult().getDocuments()) {
+                                Lunchdate ld = new Lunchdate(doc.getId(), doc.getString("account"), doc.getString("userId"), doc.getDate("date"), doc.getString("ref"), doc.getString("refText"), doc.getString("status"));
+                                lunchdates.add(ld);
+                                todayUsers.add(activity.getUserById(doc.getString("userId")));
+                            }
+                            sortLists();
+                            filterList();
 
-                    hideLoading();
-                }
-            })
-            .addOnFailureListener(new OnFailureListener() {
-                @Override
-                public void onFailure(@NonNull Exception e) {
-                    Toast.makeText(activity, getString(R.string.error_users_get), Toast.LENGTH_SHORT).show();
-                    hideLoading();
+                            hideLoading();
+                        } else {
+                            Toast.makeText(activity, getString(R.string.error_users_get), Toast.LENGTH_SHORT).show();
+                            hideLoading();
+                        }
+                    }
                 }
             });
     }
@@ -179,7 +180,9 @@ public class TabLunchTime extends Fragment {
     }
 
     public void init() {
-        loadLunchdates();
+        if (!activity.allUsers.isEmpty()) {
+            loadLunchdates();
+        }
     }
 
     public void onEnter() {
@@ -232,22 +235,23 @@ public class TabLunchTime extends Fragment {
                 db.collection("lunchdates")
                     .document(lunchdate.getId())
                     .set(lunchdate)
-                    .addOnSuccessListener(new OnSuccessListener<Void>() {
+                    .addOnCompleteListener(new OnCompleteListener<Void>() {
                         @Override
-                        public void onSuccess(Void aVoid) {
-                            lunchdates.set(index, lunchdate);
-                            listAdapter.updateList(todayUsers, lunchdates);
-                            list.setAdapter(listAdapter);
-                            showAuthDialog(finalUser, true);
-                            activity.updateLunchdateStatus(lunchdate);
-                            hideLoading();
-                        }
-                    })
-                    .addOnFailureListener(new OnFailureListener() {
-                        @Override
-                        public void onFailure(@NonNull Exception e) {
-                            Toast.makeText(activity, getString(R.string.error_lunchdate_mod), Toast.LENGTH_SHORT).show();
-                            hideLoading();
+                        public void onComplete(@NonNull Task<Void> task) {
+                            // Prevent Fragment not attached to Activity error after logout
+                            if (isAdded()) {
+                                if (task.isSuccessful()) {
+                                    lunchdates.set(index, lunchdate);
+                                    listAdapter.updateList(todayUsers, lunchdates);
+                                    list.setAdapter(listAdapter);
+                                    showAuthDialog(finalUser, true);
+                                    activity.updateLunchdateStatus(lunchdate);
+                                    hideLoading();
+                                } else {
+                                    Toast.makeText(activity, getString(R.string.error_lunchdate_mod), Toast.LENGTH_SHORT).show();
+                                    hideLoading();
+                                }
+                            }
                         }
                     });
             } else {
@@ -296,23 +300,30 @@ public class TabLunchTime extends Fragment {
         if (lunchdates.contains(lunchdate)) {
             lunchdates.remove(lunchdate);
         }
-        User user = activity.getUserById(lunchdate.getUserId());
-        if (todayUsers.contains(user)) {
-            todayUsers.remove(user);
-        }
-        sortLists();
-    }
-
-    public void delLunchdates(List<Lunchdate> lunchdates) {
-        for (Lunchdate lunchdate : lunchdates) {
-            if (lunchdates.contains(lunchdate)) {
-                lunchdates.remove(lunchdate);
-            }
-            User user = activity.getUserById(lunchdate.getUserId());
-            if (todayUsers.contains(user)) {
+        for (int i = todayUsers.size()-1; i >= 0; i--) {
+            User user = todayUsers.get(i);
+            if (user.getId().equals(lunchdate.getUserId())) {
                 todayUsers.remove(user);
             }
         }
         sortLists();
+        listAdapter.updateList(todayUsers, lunchdates);
+    }
+
+    public void delLunchdates(List<Lunchdate> lunchdates) {
+        for (int i = lunchdates.size()-1; i >= 0; i--) {
+            Lunchdate lunchdate = lunchdates.get(i);
+            if (lunchdates.contains(lunchdate)) {
+                lunchdates.remove(lunchdate);
+            }
+            for (int j = todayUsers.size()-1; j >= 0; j--) {
+                User user = todayUsers.get(j);
+                if (user.getId().equals(lunchdate.getUserId())) {
+                    todayUsers.remove(user);
+                }
+            }
+        }
+        sortLists();
+        listAdapter.updateList(todayUsers, lunchdates);
     }
 }

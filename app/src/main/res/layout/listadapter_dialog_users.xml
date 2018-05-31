@@ -3,6 +3,8 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
+    android:paddingBottom="4dp"
+    android:paddingTop="4dp"
     tools:context="tk.rktdev.chasc.UsersListDialogListAdapter">
 
     <TextView
@@ -12,8 +14,7 @@
         android:layout_alignParentLeft="true"
         android:layout_alignParentStart="true"
         android:layout_centerVertical="true"
-        android:padding="2dp"
-        android:textSize="18sp"
-        android:textStyle="bold"/>
+        android:textColor="@drawable/text_color_pressed_primary"
+        android:textSize="18sp"/>
 
 </RelativeLayout>

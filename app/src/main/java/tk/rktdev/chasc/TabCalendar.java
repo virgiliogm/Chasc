@@ -21,8 +21,6 @@ import android.widget.Toast;
 import com.github.sundeepk.compactcalendarview.CompactCalendarView;
 import com.github.sundeepk.compactcalendarview.domain.Event;
 import com.google.android.gms.tasks.OnCompleteListener;
-import com.google.android.gms.tasks.OnFailureListener;
-import com.google.android.gms.tasks.OnSuccessListener;
 import com.google.android.gms.tasks.Task;
 import com.google.firebase.auth.FirebaseUser;
 import com.google.firebase.firestore.DocumentReference;
@@ -245,24 +243,25 @@ public class TabCalendar extends Fragment {
                 .whereGreaterThanOrEqualTo("date", calFrom.getTime())
                 .whereLessThanOrEqualTo("date", calTo.getTime())
                 .get()
-                .addOnSuccessListener(new OnSuccessListener<QuerySnapshot>() {
+                .addOnCompleteListener(new OnCompleteListener<QuerySnapshot>() {
                     @Override
-                    public void onSuccess(QuerySnapshot documentSnapshots) {
-                        for (DocumentSnapshot doc : documentSnapshots.getDocuments()) {
-                            Lunchdate ld = new Lunchdate(doc.getId(), doc.getString("account"), doc.getString("userId"), doc.getDate("date"), doc.getString("ref"), doc.getString("refText"), doc.getString("status"));
-                            lunchdates.add(ld);
+                    public void onComplete(@NonNull Task<QuerySnapshot> task) {
+                        // Prevent Fragment not attached to Activity error after logout
+                        if (isAdded()) {
+                            if (task.isSuccessful()) {
+                                for (DocumentSnapshot doc : task.getResult().getDocuments()) {
+                                    Lunchdate ld = new Lunchdate(doc.getId(), doc.getString("account"), doc.getString("userId"), doc.getDate("date"), doc.getString("ref"), doc.getString("refText"), doc.getString("status"));
+                                    lunchdates.add(ld);
+                                }
+                                if (!lunchdates.isEmpty()) {
+                                    addCalendarEvents(lunchdates);
+                                }
+                                hideLoading();
+                            } else {
+                                Toast.makeText(activity, getString(R.string.error_lunchdates_get), Toast.LENGTH_SHORT).show();
+                                hideLoading();
+                            }
                         }
-                        if (!lunchdates.isEmpty()) {
-                            addCalendarEvents(lunchdates);
-                        }
-                        hideLoading();
-                    }
-                })
-                .addOnFailureListener(new OnFailureListener() {
-                    @Override
-                    public void onFailure(@NonNull Exception e) {
-                        Toast.makeText(activity, getString(R.string.error_lunchdates_get), Toast.LENGTH_SHORT).show();
-                        hideLoading();
                     }
                 });
         }
@@ -377,37 +376,38 @@ public class TabCalendar extends Fragment {
 
         db.collection("lunchdates").document(lunchdateId)
             .delete()
-            .addOnSuccessListener(new OnSuccessListener<Void>() {
+            .addOnCompleteListener(new OnCompleteListener<Void>() {
                 @Override
-                public void onSuccess(Void aVoid) {
-                    Toast.makeText(activity, getString(R.string.lunchdate_deleted), Toast.LENGTH_SHORT).show();
+                public void onComplete(@NonNull Task<Void> task) {
+                    // Prevent Fragment not attached to Activity error after logout
+                    if (isAdded()) {
+                        if (task.isSuccessful()) {
+                            Toast.makeText(activity, getString(R.string.lunchdate_deleted), Toast.LENGTH_SHORT).show();
 
-                    Lunchdate lunchdate = eventLunchdate.get(event);
+                            Lunchdate lunchdate = eventLunchdate.get(event);
 
-                    allEvents.remove(event);
-                    lunchdateEvent.remove(lunchdateId);
-                    eventLunchdate.remove(event);
-                    eventUser.remove(event);
-                    calendar.removeEvent(event, true);
-                    hideLoading();
+                            allEvents.remove(event);
+                            lunchdateEvent.remove(lunchdateId);
+                            eventLunchdate.remove(event);
+                            eventUser.remove(event);
+                            calendar.removeEvent(event, true);
+                            hideLoading();
 
-                    // Remove lunchdate from LunchTime tab list if it was scheduled for today
+                            // Remove lunchdate from LunchTime tab list if it was scheduled for today
 
-                    int day = Calendar.getInstance().get(Calendar.DAY_OF_YEAR);
-                    int year = Calendar.getInstance().get(Calendar.YEAR);
-                    Calendar lunchdateCal = Calendar.getInstance();
-                    lunchdateCal.setTime(lunchdate.getDate());
+                            int day = Calendar.getInstance().get(Calendar.DAY_OF_YEAR);
+                            int year = Calendar.getInstance().get(Calendar.YEAR);
+                            Calendar lunchdateCal = Calendar.getInstance();
+                            lunchdateCal.setTime(lunchdate.getDate());
 
-                    if (lunchdateCal.get(Calendar.DAY_OF_YEAR) == day && lunchdateCal.get(Calendar.YEAR) == year) {
-                        activity.delLunchdateFromLunchTime(lunchdate);
+                            if (lunchdateCal.get(Calendar.DAY_OF_YEAR) == day && lunchdateCal.get(Calendar.YEAR) == year) {
+                                activity.delLunchdateFromLunchTime(lunchdate);
+                            }
+                        } else {
+                            Toast.makeText(activity, getString(R.string.error_lunchdate_del), Toast.LENGTH_SHORT).show();
+                            hideLoading();
+                        }
                     }
-                }
-            })
-            .addOnFailureListener(new OnFailureListener() {
-                @Override
-                public void onFailure(@NonNull Exception e) {
-                    Toast.makeText(activity, getString(R.string.error_lunchdate_del), Toast.LENGTH_SHORT).show();
-                    hideLoading();
                 }
             });
     }
@@ -421,73 +421,76 @@ public class TabCalendar extends Fragment {
             .addOnCompleteListener(new OnCompleteListener<QuerySnapshot>() {
                 @Override
                 public void onComplete(@NonNull Task<QuerySnapshot> task) {
-                    if (task.isSuccessful()) {
-                        final List<String> lunchdateIds = new ArrayList<>();
-                        WriteBatch batch = db.batch();
+                    if (isAdded()) {
+                        if (task.isSuccessful()) {
+                            final List<String> lunchdateIds = new ArrayList<>();
+                            WriteBatch batch = db.batch();
 
-                        for (DocumentSnapshot doc : task.getResult()) {
-                            String id = doc.getId();
-                            lunchdateIds.add(id);
-                            batch.delete(db.collection("lunchdates").document(id));
-                        }
+                            for (DocumentSnapshot doc : task.getResult()) {
+                                String id = doc.getId();
+                                lunchdateIds.add(id);
+                                batch.delete(db.collection("lunchdates").document(id));
+                            }
 
-                        if (lunchdateIds.isEmpty()) {
-                            hideLoading();
-                        } else {
-                            batch
-                                .commit()
-                                .addOnSuccessListener(new OnSuccessListener<Void>() {
-                                    @Override
-                                    public void onSuccess(Void aVoid) {
-                                        Toast.makeText(activity, getString(R.string.lunchdates_deleted), Toast.LENGTH_SHORT).show();
+                            if (lunchdateIds.isEmpty()) {
+                                hideLoading();
+                            } else {
+                                batch
+                                    .commit()
+                                    .addOnCompleteListener(new OnCompleteListener<Void>() {
+                                        @Override
+                                        public void onComplete(@NonNull Task<Void> task) {
+                                            // Prevent Fragment not attached to Activity error after logout
+                                            if (isAdded()) {
+                                                if (task.isSuccessful()) {
+                                                    Toast.makeText(activity, getString(R.string.lunchdates_deleted), Toast.LENGTH_SHORT).show();
 
-                                        List<Event> eventsToRemove = new ArrayList<>();
-                                        List<Lunchdate> todayLunchdates = new ArrayList<>();
-                                        int day = Calendar.getInstance().get(Calendar.DAY_OF_YEAR);
-                                        int year = Calendar.getInstance().get(Calendar.YEAR);
+                                                    List<Event> eventsToRemove = new ArrayList<>();
+                                                    List<Lunchdate> todayLunchdates = new ArrayList<>();
+                                                    int day = Calendar.getInstance().get(Calendar.DAY_OF_YEAR);
+                                                    int year = Calendar.getInstance().get(Calendar.YEAR);
 
-                                        // Remove events from calendar, lists & maps if were drawn & check if any was scheduled for today
-                                        for (String id : lunchdateIds) {
-                                            if (lunchdateEvent.containsKey(id)) {
-                                                Event event = lunchdateEvent.get(id);
-                                                eventsToRemove.add(event);
+                                                    // Remove events from calendar, lists & maps if were drawn & check if any was scheduled for today
+                                                    for (String id : lunchdateIds) {
+                                                        if (lunchdateEvent.containsKey(id)) {
+                                                            Event event = lunchdateEvent.get(id);
+                                                            eventsToRemove.add(event);
 
-                                                Lunchdate lunchdate = eventLunchdate.get(event);
+                                                            Lunchdate lunchdate = eventLunchdate.get(event);
 
-                                                Calendar lunchdateCal = Calendar.getInstance();
-                                                lunchdateCal.setTime(lunchdate.getDate());
+                                                            Calendar lunchdateCal = Calendar.getInstance();
+                                                            lunchdateCal.setTime(lunchdate.getDate());
 
-                                                if (lunchdateCal.get(Calendar.DAY_OF_YEAR) == day && lunchdateCal.get(Calendar.YEAR) == year) {
-                                                    todayLunchdates.add(lunchdate);
+                                                            if (lunchdateCal.get(Calendar.DAY_OF_YEAR) == day && lunchdateCal.get(Calendar.YEAR) == year) {
+                                                                todayLunchdates.add(lunchdate);
+                                                            }
+                                                        }
+                                                    }
+
+                                                    allEvents.removeAll(eventsToRemove);
+                                                    lunchdateEvent.keySet().removeAll(lunchdateIds);
+                                                    eventLunchdate.keySet().removeAll(eventsToRemove);
+                                                    eventUser.keySet().removeAll(eventsToRemove);
+                                                    calendar.removeEvents(eventsToRemove);
+
+                                                    hideLoading();
+
+                                                    // Remove from LunchTime tab list the lunchdates scheduled for today
+                                                    if (!todayLunchdates.isEmpty()) {
+                                                        activity.delLunchdatesFromLunchTime(todayLunchdates);
+                                                    }
+                                                } else {
+                                                    Toast.makeText(activity, getString(R.string.error_lunchdates_del), Toast.LENGTH_SHORT).show();
+                                                    hideLoading();
                                                 }
                                             }
                                         }
-
-                                        allEvents.removeAll(eventsToRemove);
-                                        lunchdateEvent.keySet().removeAll(lunchdateIds);
-                                        eventLunchdate.keySet().removeAll(eventsToRemove);
-                                        eventUser.keySet().removeAll(eventsToRemove);
-                                        calendar.removeEvents(eventsToRemove);
-
-                                        hideLoading();
-
-                                        // Remove from LunchTime tab list the lunchdates scheduled for today
-                                        if (!todayLunchdates.isEmpty()) {
-                                            activity.delLunchdatesFromLunchTime(todayLunchdates);
-                                        }
-                                    }
-                                })
-                                .addOnFailureListener(new OnFailureListener() {
-                                    @Override
-                                    public void onFailure(@NonNull Exception e) {
-                                        Toast.makeText(activity, getString(R.string.error_lunchdates_del), Toast.LENGTH_SHORT).show();
-                                        hideLoading();
-                                    }
-                                });
+                                    });
+                            }
+                        } else {
+                            Toast.makeText(activity, getString(R.string.error_lunchdates_del), Toast.LENGTH_SHORT).show();
+                            hideLoading();
                         }
-                    } else {
-                        Toast.makeText(activity, getString(R.string.error_lunchdates_del), Toast.LENGTH_SHORT).show();
-                        hideLoading();
                     }
                 }
             });
@@ -570,8 +573,10 @@ public class TabCalendar extends Fragment {
 
     public void init() {
         Date now = new Date();
-        loadCalendarData(now, true);
         setDateText(now);
+        if (!activity.allUsers.isEmpty()) {
+            loadCalendarData(now, true);
+        }
     }
 
     public void onEnter() {
@@ -675,24 +680,25 @@ public class TabCalendar extends Fragment {
 
                 batch
                     .commit()
-                    .addOnSuccessListener(new OnSuccessListener<Void>() {
+                    .addOnCompleteListener(new OnCompleteListener<Void>() {
                         @Override
-                        public void onSuccess(Void aVoid) {
-                            Toast.makeText(activity, getString(R.string.lunchdates_added), Toast.LENGTH_SHORT).show();
-                            addCalendarEvents(lunchdates);
-                            hideLoading();
+                        public void onComplete(@NonNull Task<Void> task) {
+                            // Prevent Fragment not attached to Activity error after logout
+                            if (isAdded()) {
+                                if (task.isSuccessful()) {
+                                    Toast.makeText(activity, getString(R.string.lunchdates_added), Toast.LENGTH_SHORT).show();
+                                    addCalendarEvents(lunchdates);
+                                    hideLoading();
 
-                            // Add to LunchTime tab list the lunchdates scheduled for today
-                            if (!todayLunchdates.isEmpty()) {
-                                activity.addLunchdatesToLunchTime(todayLunchdates);
+                                    // Add to LunchTime tab list the lunchdates scheduled for today
+                                    if (!todayLunchdates.isEmpty()) {
+                                        activity.addLunchdatesToLunchTime(todayLunchdates);
+                                    }
+                                } else {
+                                    Toast.makeText(activity, getString(R.string.error_lunchdate_add), Toast.LENGTH_SHORT).show();
+                                    hideLoading();
+                                }
                             }
-                        }
-                    })
-                    .addOnFailureListener(new OnFailureListener() {
-                        @Override
-                        public void onFailure(@NonNull Exception e) {
-                            Toast.makeText(activity, getString(R.string.error_lunchdate_add), Toast.LENGTH_SHORT).show();
-                            hideLoading();
                         }
                     });
             }
@@ -706,31 +712,32 @@ public class TabCalendar extends Fragment {
 
             docRef
                 .set(lunchdate)
-                .addOnSuccessListener(new OnSuccessListener<Void>() {
+                .addOnCompleteListener(new OnCompleteListener<Void>() {
                     @Override
-                    public void onSuccess(Void aVoid) {
-                        Toast.makeText(activity, getString(R.string.lunchdate_added), Toast.LENGTH_SHORT).show();
+                    public void onComplete(@NonNull Task<Void> task) {
+                        // Prevent Fragment not attached to Activity error after logout
+                        if (isAdded()) {
+                            if (task.isSuccessful()) {
+                                Toast.makeText(activity, getString(R.string.lunchdate_added), Toast.LENGTH_SHORT).show();
 
-                        addCalendarEvents(lunchdate);
-                        hideLoading();
+                                addCalendarEvents(lunchdate);
+                                hideLoading();
 
-                        // Add lunchdate to LunchTime tab list if it was scheduled for today
+                                // Add lunchdate to LunchTime tab list if it was scheduled for today
 
-                        int day = Calendar.getInstance().get(Calendar.DAY_OF_YEAR);
-                        int year = Calendar.getInstance().get(Calendar.YEAR);
-                        Calendar lunchdateCal = Calendar.getInstance();
-                        lunchdateCal.setTime(lunchdate.getDate());
+                                int day = Calendar.getInstance().get(Calendar.DAY_OF_YEAR);
+                                int year = Calendar.getInstance().get(Calendar.YEAR);
+                                Calendar lunchdateCal = Calendar.getInstance();
+                                lunchdateCal.setTime(lunchdate.getDate());
 
-                        if (lunchdateCal.get(Calendar.DAY_OF_YEAR) == day && lunchdateCal.get(Calendar.YEAR) == year) {
-                            activity.addLunchdateToLunchTime(lunchdate);
+                                if (lunchdateCal.get(Calendar.DAY_OF_YEAR) == day && lunchdateCal.get(Calendar.YEAR) == year) {
+                                    activity.addLunchdateToLunchTime(lunchdate);
+                                }
+                            } else {
+                                Toast.makeText(activity, getString(R.string.error_lunchdate_add), Toast.LENGTH_SHORT).show();
+                                hideLoading();
+                            }
                         }
-                    }
-                })
-                .addOnFailureListener(new OnFailureListener() {
-                    @Override
-                    public void onFailure(@NonNull Exception e) {
-                        Toast.makeText(activity, getString(R.string.error_lunchdate_add), Toast.LENGTH_SHORT).show();
-                        hideLoading();
                     }
                 });
         }

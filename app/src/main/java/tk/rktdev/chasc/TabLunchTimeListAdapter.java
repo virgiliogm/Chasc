@@ -18,15 +18,15 @@ import android.widget.Spinner;
 import android.widget.TextView;
 import android.widget.Toast;
 
-import com.google.android.gms.tasks.OnFailureListener;
-import com.google.android.gms.tasks.OnSuccessListener;
+import com.google.android.gms.tasks.OnCompleteListener;
+import com.google.android.gms.tasks.Task;
 import com.google.firebase.firestore.FirebaseFirestore;
 
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
-// ListAdapter to customize the public users list
+// ListAdapter to customize the LunchTime tab list
 public class TabLunchTimeListAdapter extends BaseAdapter {
     private FirebaseFirestore db;
 
@@ -154,20 +154,18 @@ public class TabLunchTimeListAdapter extends BaseAdapter {
         db.collection("lunchdates")
             .document(lunchdate.getId())
             .set(lunchdate)
-            .addOnSuccessListener(new OnSuccessListener<Void>() {
+            .addOnCompleteListener(new OnCompleteListener<Void>() {
                 @Override
-                public void onSuccess(Void aVoid) {
-                    lunchdates.set(pos, lunchdate);
-                    view.setBackgroundColor(colorByStatus.get(event));
-                    activity.updateLunchdateStatus(lunchdate);
-                    activity.hideLunchTimeLoading();
-                }
-            })
-            .addOnFailureListener(new OnFailureListener() {
-                @Override
-                public void onFailure(@NonNull Exception e) {
-                    Toast.makeText(activity, activity.getString(R.string.error_lunchdate_mod), Toast.LENGTH_SHORT).show();
-                    activity.hideLunchTimeLoading();
+                public void onComplete(@NonNull Task<Void> task) {
+                    if (task.isSuccessful()) {
+                        lunchdates.set(pos, lunchdate);
+                        view.setBackgroundColor(colorByStatus.get(event));
+                        activity.updateLunchdateStatus(lunchdate);
+                        activity.hideLunchTimeLoading();
+                    } else {
+                        Toast.makeText(activity, activity.getString(R.string.error_lunchdate_mod), Toast.LENGTH_SHORT).show();
+                        activity.hideLunchTimeLoading();
+                    }
                 }
             });
     }

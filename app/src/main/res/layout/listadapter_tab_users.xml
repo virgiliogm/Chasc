@@ -15,6 +15,7 @@
         android:layout_weight="10"
         android:paddingLeft="8dp"
         android:paddingStart="8dp"
+        android:textColor="@drawable/text_color_pressed_primary"
         android:textSize="18sp"
         android:textStyle="bold"/>
 

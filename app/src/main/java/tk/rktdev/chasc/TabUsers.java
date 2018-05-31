@@ -15,8 +15,8 @@ import android.widget.SearchView;
 import android.widget.TextView;
 import android.widget.Toast;
 
-import com.google.android.gms.tasks.OnFailureListener;
-import com.google.android.gms.tasks.OnSuccessListener;
+import com.google.android.gms.tasks.OnCompleteListener;
+import com.google.android.gms.tasks.Task;
 import com.google.firebase.auth.FirebaseUser;
 import com.google.firebase.firestore.DocumentReference;
 import com.google.firebase.firestore.DocumentSnapshot;
@@ -91,29 +91,30 @@ public class TabUsers extends Fragment {
         db.collection("users")
             .whereEqualTo("account", account.getUid())
             .get()
-            .addOnSuccessListener(new OnSuccessListener<QuerySnapshot>() {
+            .addOnCompleteListener(new OnCompleteListener<QuerySnapshot>() {
                 @Override
-                public void onSuccess(QuerySnapshot documentSnapshots) {
-                    for (DocumentSnapshot doc : documentSnapshots.getDocuments()) {
-                        User u = new User(doc.getId(), doc.getString("account"), doc.getString("name"), doc.getString("surname"), doc.getString("nfc"));
-                        activity.allUsers.add(u);
+                public void onComplete(@NonNull Task<QuerySnapshot> task) {
+                    // Prevent Fragment not attached to Activity error after logout
+                    if (isAdded()) {
+                        if (task.isSuccessful()) {
+                            for (DocumentSnapshot doc : task.getResult().getDocuments()) {
+                                User u = new User(doc.getId(), doc.getString("account"), doc.getString("name"), doc.getString("surname"), doc.getString("nfc"));
+                                activity.allUsers.add(u);
+                            }
+
+                            sortUsersList(activity.allUsers);
+
+                            // Once users are loaded, init Calendar & LunchTime tabs
+                            activity.initCalendar();
+                            activity.initLunchTime();
+
+                            filterList();
+                            hideLoading();
+                        } else {
+                            Toast.makeText(activity, getString(R.string.error_users_get), Toast.LENGTH_SHORT).show();
+                            hideLoading();
+                        }
                     }
-
-                    sortUsersList(activity.allUsers);
-
-                    // Once users are loaded, init Calendar & LunchTime tabs
-                    activity.initCalendar();
-                    activity.initLunchTime();
-
-                    filterList();
-                    hideLoading();
-                }
-            })
-            .addOnFailureListener(new OnFailureListener() {
-                @Override
-                public void onFailure(@NonNull Exception e) {
-                    Toast.makeText(activity, getString(R.string.error_users_get), Toast.LENGTH_SHORT).show();
-                    hideLoading();
                 }
             });
     }
@@ -258,20 +259,21 @@ public class TabUsers extends Fragment {
 
                 db.collection("users").document(newUser.getId())
                     .set(newUser)
-                    .addOnSuccessListener(new OnSuccessListener<Void>() {
+                    .addOnCompleteListener(new OnCompleteListener<Void>() {
                         @Override
-                        public void onSuccess(Void aVoid) {
-                            Toast.makeText(activity, getString(R.string.user_modified), Toast.LENGTH_SHORT).show();
-                            activity.allUsers.set(getUserPosition(newUser.getId()), newUser);
-                            updateList();
-                            hideLoading();
-                        }
-                    })
-                    .addOnFailureListener(new OnFailureListener() {
-                        @Override
-                        public void onFailure(@NonNull Exception e) {
-                            Toast.makeText(activity, getString(R.string.error_user_mod), Toast.LENGTH_SHORT).show();
-                            hideLoading();
+                        public void onComplete(@NonNull Task<Void> task) {
+                            // Prevent Fragment not attached to Activity error after logout
+                            if (isAdded()) {
+                                if (task.isSuccessful()) {
+                                    Toast.makeText(activity, getString(R.string.user_modified), Toast.LENGTH_SHORT).show();
+                                    activity.allUsers.set(getUserPosition(newUser.getId()), newUser);
+                                    updateList();
+                                    hideLoading();
+                                } else {
+                                    Toast.makeText(activity, getString(R.string.error_user_mod), Toast.LENGTH_SHORT).show();
+                                    hideLoading();
+                                }
+                            }
                         }
                     });
             } else {
@@ -281,21 +283,22 @@ public class TabUsers extends Fragment {
 
                 docRef
                     .set(newUser)
-                    .addOnSuccessListener(new OnSuccessListener<Void>() {
+                    .addOnCompleteListener(new OnCompleteListener<Void>() {
                         @Override
-                        public void onSuccess(Void aVoid) {
-                            Toast.makeText(activity, getString(R.string.user_added), Toast.LENGTH_SHORT).show();
+                        public void onComplete(@NonNull Task<Void> task) {
+                            // Prevent Fragment not attached to Activity error after logout
+                            if (isAdded()) {
+                                if (task.isSuccessful()) {
+                                    Toast.makeText(activity, getString(R.string.user_added), Toast.LENGTH_SHORT).show();
 
-                            activity.allUsers.add(newUser);
-                            updateList();
-                            hideLoading();
-                        }
-                    })
-                    .addOnFailureListener(new OnFailureListener() {
-                        @Override
-                        public void onFailure(@NonNull Exception e) {
-                            Toast.makeText(activity, getString(R.string.error_user_add), Toast.LENGTH_SHORT).show();
-                            hideLoading();
+                                    activity.allUsers.add(newUser);
+                                    updateList();
+                                    hideLoading();
+                                } else {
+                                    Toast.makeText(activity, getString(R.string.error_user_add), Toast.LENGTH_SHORT).show();
+                                    hideLoading();
+                                }
+                            }
                         }
                     });
             }
@@ -315,24 +318,24 @@ public class TabUsers extends Fragment {
 
                     db.collection("users").document(uid)
                         .delete()
-                        .addOnSuccessListener(new OnSuccessListener<Void>() {
+                        .addOnCompleteListener(new OnCompleteListener<Void>() {
                             @Override
-                            public void onSuccess(Void aVoid) {
-                                Toast.makeText(activity, getString(R.string.user_deleted), Toast.LENGTH_SHORT).show();
+                            public void onComplete(@NonNull Task<Void> task) {
+                                // Prevent Fragment not attached to Activity error after logout
+                                if (isAdded()) {
+                                    if (task.isSuccessful()) {
+                                        Toast.makeText(activity, getString(R.string.user_deleted), Toast.LENGTH_SHORT).show();
 
-                                int position = getUserPosition(uid);
-                                activity.allUsers.remove(position);
-                                listAdapter.delUser(position);
-                                lv.setAdapter(listAdapter);
-                                activity.delLunchdateByUser(uid);
-                                hideLoading();
-                            }
-                        })
-                        .addOnFailureListener(new OnFailureListener() {
-                            @Override
-                            public void onFailure(@NonNull Exception e) {
-                                Toast.makeText(activity, getString(R.string.error_user_del), Toast.LENGTH_SHORT).show();
-                                hideLoading();
+                                        int position = getUserPosition(uid);
+                                        activity.allUsers.remove(position);
+                                        filterList();
+                                        activity.delLunchdateByUser(uid);
+                                        hideLoading();
+                                    } else {
+                                        Toast.makeText(activity, getString(R.string.error_user_del), Toast.LENGTH_SHORT).show();
+                                        hideLoading();
+                                    }
+                                }
                             }
                         });
                     user = null;

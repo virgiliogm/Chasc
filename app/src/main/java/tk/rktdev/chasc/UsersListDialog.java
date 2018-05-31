@@ -35,6 +35,7 @@ public class UsersListDialog extends Dialog {
         lv = (ListView) findViewById(R.id.list);
         listAdapter = new UsersListDialogListAdapter(usersList, activity);
         lv.setAdapter(listAdapter);
+        filterUsers();
 
         sv = (SearchView) findViewById(R.id.sv);
         sv.setOnQueryTextListener(new SearchView.OnQueryTextListener() {

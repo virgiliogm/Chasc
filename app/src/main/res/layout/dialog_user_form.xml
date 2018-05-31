@@ -12,10 +12,11 @@
         android:layout_height="wrap_content"
         android:layout_alignParentTop="true"
         android:layout_marginTop="10dp"
+        android:gravity="center"
         android:text="@string/add_user"
-        android:textAlignment="center"
+        android:textColor="@color/colorAccent"
         android:textSize="18sp"
-        android:textStyle="bold" />
+        android:textStyle="bold"/>
 
     <LinearLayout
         android:id="@+id/rowName"
@@ -52,8 +53,8 @@
             android:layout_height="wrap_content"
             android:layout_weight="30"
             android:hint="@string/name"
-            android:inputType="textPersonName"
-            android:textSize="14sp" />
+            android:inputType="textCapWords"
+            android:textSize="14sp"/>
     </LinearLayout>
 
     <LinearLayout
@@ -91,7 +92,7 @@
             android:layout_height="wrap_content"
             android:layout_weight="30"
             android:hint="@string/surname"
-            android:inputType="textPersonName"
+            android:inputType="textCapWords"
             android:textSize="14sp" />
     </LinearLayout>
 
@@ -121,8 +122,8 @@
             android:layout_height="wrap_content"
             android:layout_weight="30"
             android:hint="@string/nfc"
-            android:inputType="textPersonName"
-            android:textSize="14sp" />
+            android:inputType="textCapCharacters"
+            android:textSize="14sp"/>
     </LinearLayout>
 
     <TextView
@@ -132,7 +133,7 @@
         android:layout_below="@+id/rowNfc"
         android:layout_marginTop="10dp"
         android:text="@string/add_user_nfc_hint"
-        android:textAlignment="center"
+        android:gravity="center"
         android:textSize="12sp" />
 
     <TextView
@@ -142,7 +143,7 @@
         android:layout_below="@+id/tvNfcHint"
         android:layout_marginTop="10dp"
         android:text="@string/required_fields_warning"
-        android:textAlignment="center"
+        android:gravity="center"
         android:textSize="12sp"/>
 
     <LinearLayout

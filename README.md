@@ -1,4 +1,4 @@
-# Chasc #
+## Chasc ##
 
 Control of attendance of students to the school canteen Android app.
 
@@ -10,18 +10,20 @@ The use of NFC communication is not essential as it is also possible to mark att
 
 The main improvements to be considered in the future are:
 
-    * More data about the students such as: image (which could be shown in the listings), contact telephone number, possible allergies...
+- More data about the students such as: image (which could be shown in the lists), contact telephone number, possible allergies...
 
-    * User groups, being able to simulate the structure of the school courses.
+- User groups, being able to simulate the structure of the school courses.
 
-    * User filters in the lists according to different fields: NFC, group to which it belongs, attendance...
+- User filters in the lists according to different fields: NFC, group to which it belongs, attendance...
 
-    * Import and export the database.
+- Import and export the database.
 
-    * Add notes on lunch dates (explanation of an absence, extraordinary day out of the usual schedule...)
+- Add notes on lunch dates (explanation of an absence, extraordinary day out of the usual schedule...)
 
-    * Tutorial when accessing the application for the first time.
+- Tutorial when accessing the application for the first time.
 
-    * Statistics on the number of students who have lunch each day, attendance and absence rates, etc.
+- Statistics on the number of students who have lunch each day, attendance and absence rates, etc.
+
+## License ##
 
 Chasc by Virgilio Gómez is licensed under a Creative Commons Attribution-NonCommercial-ShareAlike 4.0 International License (CC BY-NC-SA 4.0). To view a copy of the license, visit [https://creativecommons.org/licenses/by-nc-sa/4.0/legalcode](https://creativecommons.org/licenses/by-nc-sa/4.0/legalcode)
