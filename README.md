@@ -1,6 +1,6 @@
 ## Chasc ##
 
-Control of attendance of students to the school canteen Android app.
+Android application for the control of attendance of students to the school canteen.
 
 We can differentiate two main features of Chasc. The first is to digitalize the list of students who must attend the school canteen, facilitating the process of managing the students, the dates on which they must attend the canteen and the control of their access to it.
 
