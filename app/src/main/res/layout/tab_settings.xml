@@ -30,7 +30,7 @@
         android:layout_centerHorizontal="true"
         android:layout_marginBottom="20dp"
         android:autoLink="all"
-        android:text="@string/license"
+        android:text="@string/privacy"
         android:textSize="12sp"/>
 
 </RelativeLayout>
