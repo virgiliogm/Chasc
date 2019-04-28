@@ -56,7 +56,6 @@
     <string name="from_uppercase">From</string>
     <string name="insert_name">Insert a name</string>
     <string name="insert_surname">Insert a surname</string>
-    <string name="license"><b>Chasc</b> by Virgilio Gómez is licensed under a Creative Commons Attribution-NonCommercial-ShareAlike 4.0 International License (CC BY-NC-SA 4.0). To view a copy of the license, visit <a href="https://creativecommons.org/licenses/by-nc-sa/4.0/legalcode">https://creativecommons.org/licenses/by-nc-sa/4.0/legalcode</a>\n\nYou can find the app code published at\n<a href="https://github.com/VirgilioGM/Chasc">https://github.com/VirgilioGM/Chasc</a></string>
     <string name="loading">Loading&#8230;</string>
     <string name="logout">Logout</string>
     <string name="lunchdate_added">Date added</string>
@@ -74,6 +73,7 @@
     <string name="no_users">There are no users to show</string>
     <string name="noauth_user">Unauthorized user</string>
     <string name="one_day">One day</string>
+    <string name="privacy"><b>Privacy policy:</b>\nYou can read the privacy policy at <a href="https://virgiliogomez.es/chasc-privacy">https://virgiliogomez.es/chasc-privacy</a>\n\n<b>License:</b>\nChasc by Virgilio Gómez is licensed under a Creative Commons Attribution-NonCommercial-ShareAlike 4.0 International License (CC BY-NC-SA 4.0). To view a copy of the license, visit <a href="https://creativecommons.org/licenses/by-nc-sa/4.0/legalcode">https://creativecommons.org/licenses/by-nc-sa/4.0/legalcode</a>\n\nYou can find the app code published at\n<a href="https://github.com/VirgilioGM/Chasc">https://github.com/VirgilioGM/Chasc</a></string>
     <string name="range">Range</string>
     <string name="required_fields_warning">* Mandatory fields</string>
     <string name="save">Save</string>
